@@ -1,3 +1,4 @@
+import { useUpdateTaskMutation } from "@/redux/api/api";
 import { Button } from "../ui/button";
 
 type TTodoCardProps = {
@@ -15,17 +16,29 @@ const TodoCard = ({
     priority,
     isCompleted,
 }: TTodoCardProps) => {
+    const [handleUpdate, { isLoading }] = useUpdateTaskMutation();
+
+    if (isLoading) return <p>Loading...</p>;
+
+    const toggleComplete = () => {
+        const isCompleted = true;
+        const options = { id: _id, isCompleted };
+        handleUpdate(options);
+    };
+
     return (
         <div>
             <div className="flex items-center justify-between border-2 p-2 rounded-lg">
                 <input
+                    checked={isCompleted}
+                    onClick={toggleComplete}
                     type="checkbox"
                     name="complete"
                     id="complete"
                     className="mr-3"
                 />
                 <p className="flex-1">{title}</p>
-                <p className="flex-1">{description}</p>
+
                 <div className="flex-1 flex items-center gap-2">
                     <div
                         className={`
@@ -38,6 +51,7 @@ const TodoCard = ({
                     ></div>
                     <p> {priority}</p>
                 </div>
+                <p className="flex-1">{description}</p>
                 <div className="flex-1 font-semibold">
                     {isCompleted ? (
                         <p className="text-green-500">Done</p>
