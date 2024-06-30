@@ -1,6 +1,20 @@
 import { Button } from "../ui/button";
 
-const TodoCard = () => {
+type TTodoCardProps = {
+    _id: string;
+    title: string;
+    description: string;
+    priority: string;
+    isCompleted: boolean;
+};
+
+const TodoCard = ({
+    _id,
+    title,
+    description,
+    priority,
+    isCompleted,
+}: TTodoCardProps) => {
     return (
         <div>
             <div className="flex items-center justify-between border-2 p-2 rounded-lg">
@@ -10,10 +24,27 @@ const TodoCard = () => {
                     id="complete"
                     className="mr-3"
                 />
-                <p className="flex-1">title</p>
-                <p className="flex-1">description</p>
-                <p className="flex-1">priority</p>
-                <p className="flex-1">isCompleted</p>
+                <p className="flex-1">{title}</p>
+                <p className="flex-1">{description}</p>
+                <div className="flex-1 flex items-center gap-2">
+                    <div
+                        className={`
+                        size-2 rounded-full 
+                        ${priority === "high" ? "bg-red-500" : ""} 
+                        ${priority === "medium" ? "bg-yellow-500" : ""} 
+                        ${priority === "low" ? "bg-green-500" : ""} 
+                        
+                        `}
+                    ></div>
+                    <p> {priority}</p>
+                </div>
+                <div className="flex-1 font-semibold">
+                    {isCompleted ? (
+                        <p className="text-green-500">Done</p>
+                    ) : (
+                        <p className="text-red-500">Pending</p>
+                    )}
+                </div>
                 <div className="space-x-2">
                     <Button className="bg-red-500">
                         <svg
