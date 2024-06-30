@@ -26,6 +26,9 @@ const TodoFilter = () => {
                     value={position}
                     onValueChange={setPosition}
                 >
+                    <DropdownMenuRadioItem value="">
+                        All
+                    </DropdownMenuRadioItem>
                     <DropdownMenuRadioItem value="high">
                         High
                     </DropdownMenuRadioItem>
