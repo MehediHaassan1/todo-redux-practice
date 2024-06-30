@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
 type TInitialState = {
     title: string;
@@ -13,10 +13,13 @@ export const todoSlice = createSlice({
     name: 'counter',
     initialState,
     reducers: {
+        addTask(state, action: PayloadAction<TInitialState>) {
+            state.push(action.payload);
+        },
     },
 })
 
 // Action creators are generated for each case reducer function
-export const { } = todoSlice.actions
+export const { addTask } = todoSlice.actions
 
 export default todoSlice.reducer

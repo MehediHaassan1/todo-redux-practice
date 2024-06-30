@@ -13,7 +13,7 @@ const TodoCard = () => {
                 <p className="flex-1">title</p>
                 <p className="flex-1">description</p>
                 <p className="flex-1">priority</p>
-                <p className="flex-1">status</p>
+                <p className="flex-1">isCompleted</p>
                 <div className="space-x-2">
                     <Button className="bg-red-500">
                         <svg

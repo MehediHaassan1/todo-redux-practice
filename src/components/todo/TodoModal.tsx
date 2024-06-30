@@ -1,3 +1,4 @@
+import { FormEvent, useState } from "react";
 import { Button } from "../ui/button";
 import {
     Dialog,
@@ -18,8 +19,30 @@ import {
     SelectTrigger,
     SelectValue,
 } from "../ui/select";
+import { useCreateTaskMutation } from "@/redux/api/api";
 
 const TodoModal = () => {
+    const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
+    const [priority, setPriority] = useState("");
+
+    const [createTask, { isLoading }] = useCreateTaskMutation();
+
+    if (isLoading) return <p>Loading...</p>;
+
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        const taskDetails = {
+            title,
+            description,
+            priority,
+            isCompleted: false,
+        };
+
+        createTask(taskDetails);
+    };
+
     return (
         <Dialog>
             <DialogTrigger asChild>
@@ -34,24 +57,32 @@ const TodoModal = () => {
                         Add task, that you want to complete!
                     </DialogDescription>
                 </DialogHeader>
-                <form className="grid gap-4 py-4">
+                <form onSubmit={handleSubmit} className="grid gap-4 py-4">
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="title" className="text-right">
                             Title
                         </Label>
-                        <Input id="title" className="col-span-3" />
+                        <Input
+                            onBlur={(e) => setTitle(e.target.value)}
+                            id="title"
+                            className="col-span-3"
+                        />
                     </div>
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="description" className="text-right">
                             Description
                         </Label>
-                        <Input id="description" className="col-span-3" />
+                        <Input
+                            onBlur={(e) => setDescription(e.target.value)}
+                            id="description"
+                            className="col-span-3"
+                        />
                     </div>
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="priority" className="text-right">
                             Priority
                         </Label>
-                        <Select>
+                        <Select onValueChange={(value) => setPriority(value)}>
                             <SelectTrigger className="col-span-3">
                                 <SelectValue placeholder="Select Priority" />
                             </SelectTrigger>
